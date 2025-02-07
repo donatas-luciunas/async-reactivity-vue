@@ -11,13 +11,12 @@ export const bind = <T>(dependency: Dependency<T>) => {
             watcher = new Watcher(dependency, () => trigger());
 
             // @ts-expect-error
-            const _cleanup = data.dep.cleanup;
-            // @ts-expect-error
-            data.dep.cleanup = () => {
-                _cleanup();
-                watcher?.dispose();
-                watcher = undefined;
-            }
+            data.dep.map = {
+                delete() {
+                    watcher?.dispose();
+                    watcher = undefined;
+                }
+            };
         };
 
         return dependency.value;

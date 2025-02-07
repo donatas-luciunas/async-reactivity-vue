@@ -1,6 +1,6 @@
 {
   "name": "async-reactivity-vue",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
