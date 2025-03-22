@@ -18,8 +18,8 @@ importers:
         specifier: ^3.5.6
         version: 3.5.13
       async-reactivity:
-        specifier: ^2.0.4
-        version: 2.0.14
+        specifier: ^2.0.16
+        version: 2.0.16
       mocha:
         specifier: ^10.7.3
         version: 10.8.2
@@ -60,8 +60,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  async-reactivity@2.0.14:
-    resolution: {integrity: sha512-pQA3TUmO8AGW7uK+OsDe0UTBVdc1riMwbZfYfLWvfmEAcq+fRnfjeWA9Z2P03bIYGXXgyxtixicRgq0k3+PSQQ==}
+  async-reactivity@2.0.16:
+    resolution: {integrity: sha512-CwhKZO9nnJwnwsG1JmQqriOb8kI66858OI/iXaMfHr6FZAqg8SIKnd2QXIE2NQDZlOstBjzsFBCySJoSXOCe6Q==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -361,7 +361,7 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  async-reactivity@2.0.14: {}
+  async-reactivity@2.0.16: {}
 
   balanced-match@1.0.2: {}
 
