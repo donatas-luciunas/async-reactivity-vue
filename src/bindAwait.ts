@@ -41,13 +41,12 @@ export const bindAwait = <T>(dependency: Dependency<Promise<T>>, initialValue: T
             });
 
             // @ts-expect-error
-            const _cleanup = data.dep.cleanup;
-            // @ts-expect-error
-            data.dep.cleanup = () => {
-                _cleanup();
-                watcher?.dispose();
-                watcher = undefined;
-            }
+            data.dep.map = {
+                delete() {
+                    watcher?.dispose();
+                    watcher = undefined;
+                }
+            };
         };
 
         return value;
