@@ -151,4 +151,51 @@ describe('bindAwait', function () {
         assert.strictEqual(b.data.value, 3);
         assert.strictEqual(b.isLoading.value, false);
     });
+
+    describe('stop watching', function () {
+        it('', async function () {
+            let gate = 0;
+            const a = new Ref(1);
+            const b = bindAwait(new Computed(async (value) => {
+                gate++;
+                await new Promise(resolve => setTimeout(resolve));
+                return value(a);
+            }), 0);
+            const w = watch(b.data, () => {});
+
+            await new Promise(resolve => setTimeout(resolve));
+            assert.strictEqual(b.data.value, 1);
+            assert.strictEqual(gate, 1);
+
+            w.stop();
+
+            a.value = 2;
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+            assert.strictEqual(gate, 1);
+        });
+
+        it('computed', async function () {
+            let gate = 0;
+            const a = new Ref(1);
+            const b = bindAwait(new Computed(async (value) => {
+                gate++;
+                await new Promise(resolve => setTimeout(resolve));
+                return value(a);
+            }), 0);
+            const c = computed(() => b.data.value);
+            const w = watch(c, () => {});
+
+            await new Promise(resolve => setTimeout(resolve));
+            assert.strictEqual(c.value, 1);
+            assert.strictEqual(gate, 1);
+
+            w.stop();
+
+            a.value = 2;
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+            assert.strictEqual(gate, 1);
+        });
+    });
 });
