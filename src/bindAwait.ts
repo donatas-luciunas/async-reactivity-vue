@@ -1,5 +1,6 @@
-import { customRef, ref, computed, EffectFlags } from '@vue/reactivity';
+import { customRef, ref, computed } from '@vue/reactivity';
 import { type Dependency, Watcher } from 'async-reactivity';
+import onStopTracking from "./onStopTracking.js";
 
 export const bindAwait = <T>(dependency: Dependency<Promise<T>>, initialValue: T, loadingTrack = true) => {
     // possibly unexpected behavior when loadingTrack = false
@@ -39,22 +40,12 @@ export const bindAwait = <T>(dependency: Dependency<Promise<T>>, initialValue: T
                     }
                 }
             });
-
-            // there is no other way to get a 'dispose' event,
-            // so here we rely on this line https://github.com/vuejs/core/blob/e53a4ffbe0264b06971090fcaf0d8b2201478e29/packages/reactivity/src/effect.ts#L443
-            // @ts-expect-error
-            data.dep.computed = {
-                get flags() {
-                    return EffectFlags.TRACKING;
-                },
-                set flags(flags) {
-                    if (!flags) {
-                        watcher?.dispose();
-                        watcher = undefined;
-                    }
-                }
-            };
         }
+
+        onStopTracking(data, () => {
+            watcher?.dispose();
+            watcher = undefined;
+        });
 
         return value;
     };
