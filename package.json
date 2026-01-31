@@ -1,6 +1,6 @@
 {
   "name": "async-reactivity-vue",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
@@ -22,11 +22,11 @@
   "author": "Donatas Lučiūnas",
   "license": "ISC",
   "devDependencies": {
-    "@types/mocha": "^10.0.8",
-    "@types/node": "^20.14.15",
-    "@vue/reactivity": "^3.5.16",
-    "async-reactivity": "^2.0.16",
-    "mocha": "^10.7.3",
-    "typescript": "^5.6.2"
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.19.30",
+    "@vue/reactivity": "^3.5.27",
+    "async-reactivity": "^2.0.23",
+    "mocha": "^10.8.2",
+    "typescript": "^5.9.3"
   }
 }

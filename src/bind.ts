@@ -15,6 +15,7 @@ export const bind = <T>(dependency: Dependency<T>) => {
         onStopTracking(data, () => {
             watcher?.dispose();
             watcher = undefined;
+            trigger();
         });
 
         return dependency.value;

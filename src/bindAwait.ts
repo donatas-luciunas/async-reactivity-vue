@@ -45,6 +45,7 @@ export const bindAwait = <T>(dependency: Dependency<Promise<T>>, initialValue: T
         onStopTracking(data, () => {
             watcher?.dispose();
             watcher = undefined;
+            trigger();
         });
 
         return value;

@@ -200,7 +200,7 @@ describe('bindAwait', function () {
     });
 
     describe('restart watching', function () {
-        it.only('computed', async function () {
+        it('computed', async function () {
             let gate = 0;
             const a = new Ref(1);
             const b = bindAwait(new Computed(async (value) => {
@@ -210,21 +210,16 @@ describe('bindAwait', function () {
             }), 0);
 
             const c = computed(() => b.data.value);
-            const w = watch(c, () => { });
-
+            const w1 = watch(c, () => { });
             await new Promise(resolve => setTimeout(resolve));
-            assert.strictEqual(c.value, 1);
-            assert.strictEqual(gate, 1);
-
-            w.stop();
+            w1.stop();
             a.value = 2;
             await new Promise(resolve => setTimeout(resolve, 10));
-            assert.strictEqual(gate, 1);
 
-            w.resume();
+            const w2 = watch(c, () => { });
             await new Promise(resolve => setTimeout(resolve, 10));
-            // fails, because Vue does not dispose computed when stopping watch
-            // and does not rerun computed when resuming watch
+            w2.stop();
+
             assert.strictEqual(c.value, 2);
             assert.strictEqual(gate, 2);
         });

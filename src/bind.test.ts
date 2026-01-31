@@ -49,7 +49,7 @@ describe('bind', function () {
         });
     });
     
-    it('no subscribers', function () {
+    it('stop watch', function () {
         const a = new Ref(1);
         const b = new Computed(value => value(a) + 1);
         const c = bind(b);
@@ -64,5 +64,22 @@ describe('bind', function () {
 
         // @ts-expect-error
         assert.strictEqual(b.state, 2);
+    });
+
+    it('resume watch', function () {
+        const a = new Ref(1);
+        const b = new Computed(value => value(a) + 1);
+        const c = bind(b);
+        const w1 = watch(c, () => {}, { immediate: true });
+        w1.stop();
+        a.value = 2;
+
+        let result;
+        const w2 = watch(c, (value) => {
+            result = value;
+        }, { immediate: true });
+        w2.stop();
+
+        assert.strictEqual(result, 3);
     });
 });
