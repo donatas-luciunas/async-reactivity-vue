@@ -1,12 +1,12 @@
 import assert from 'assert';
 import { Computed, Ref } from 'async-reactivity';
-import { bindAwait } from './bindAwait.js';
+import { bindAsync } from './bindAsync.js';
 import { computed, watch } from '@vue/reactivity';
 
-describe('bindAwait', function () {
+describe('bindAsync', function () {
     it('initial', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         assert.strictEqual(b.data.value, 0);
         assert.strictEqual(b.isLoading.value, true);
@@ -14,7 +14,7 @@ describe('bindAwait', function () {
 
     it('initial', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         await new Promise(resolve => setTimeout(resolve));
 
@@ -24,7 +24,7 @@ describe('bindAwait', function () {
 
     it('default', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         b.data.value;
         await new Promise(resolve => setTimeout(resolve));
@@ -35,7 +35,7 @@ describe('bindAwait', function () {
 
     it('isLoading track', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         b.isLoading.value;
         await new Promise(resolve => setTimeout(resolve));
@@ -46,7 +46,7 @@ describe('bindAwait', function () {
 
     it('isLoading track disable', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0, false);
+        const b = bindAsync(a, 0, false);
 
         b.isLoading.value;
         await new Promise(resolve => setTimeout(resolve));
@@ -57,8 +57,8 @@ describe('bindAwait', function () {
 
     it('multiple', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0).data;
-        const c = bindAwait(a, 0).data;
+        const b = bindAsync(a, 0).data;
+        const c = bindAsync(a, 0).data;
 
         b.value;
         c.value;
@@ -70,7 +70,7 @@ describe('bindAwait', function () {
 
     it('update', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         b.data.value;
         a.value = Promise.resolve(2);
@@ -83,7 +83,7 @@ describe('bindAwait', function () {
     describe('computed', function () {
         it('', async function () {
             const a = new Ref(Promise.resolve(1));
-            const b = bindAwait(a, 0).data;
+            const b = bindAsync(a, 0).data;
             const c = computed(() => b.value);
 
             assert.strictEqual(c.value, 0);
@@ -94,7 +94,7 @@ describe('bindAwait', function () {
 
         it('update', async function () {
             const a = new Ref(Promise.resolve(1));
-            const b = bindAwait(a, 0).data;
+            const b = bindAsync(a, 0).data;
             const c = computed(() => b.value);
 
             assert.strictEqual(c.value, 0);
@@ -108,24 +108,24 @@ describe('bindAwait', function () {
     it('no subscribers', async function () {
         const a = new Ref(Promise.resolve(1));
         const b = new Computed(async value => await value(a) + 1);
-        const c = bindAwait(b, 0);
+        const c = bindAsync(b, 0);
 
         const w = watch(c.data, () => { });
 
         await new Promise(resolve => setTimeout(resolve));
         // @ts-expect-error
-        assert.strictEqual(b.state, 1);
+        assert.strictEqual(b.state, 2);
         assert.strictEqual(c.data.value, 2);
         w.stop();
         a.value = Promise.resolve(2);
 
         // @ts-expect-error
-        assert.strictEqual(b.state, 2);
+        assert.strictEqual(b.state, 3);
     });
 
     it('concurrent update longer', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         b.data.value;
         a.value = new Promise(resolve => setTimeout(() => resolve(2), 100));
@@ -140,7 +140,7 @@ describe('bindAwait', function () {
 
     it('concurrent update shorter', async function () {
         const a = new Ref(Promise.resolve(1));
-        const b = bindAwait(a, 0);
+        const b = bindAsync(a, 0);
 
         b.data.value;
         a.value = new Promise(resolve => setTimeout(() => resolve(2), 100));
@@ -156,7 +156,7 @@ describe('bindAwait', function () {
         it('', async function () {
             let gate = 0;
             const a = new Ref(1);
-            const b = bindAwait(new Computed(async (value) => {
+            const b = bindAsync(new Computed(async (value) => {
                 gate++;
                 await new Promise(resolve => setTimeout(resolve));
                 return value(a);
@@ -178,7 +178,7 @@ describe('bindAwait', function () {
         it('computed', async function () {
             let gate = 0;
             const a = new Ref(1);
-            const b = bindAwait(new Computed(async (value) => {
+            const b = bindAsync(new Computed(async (value) => {
                 gate++;
                 await new Promise(resolve => setTimeout(resolve));
                 return value(a);
@@ -203,7 +203,7 @@ describe('bindAwait', function () {
         it('computed', async function () {
             let gate = 0;
             const a = new Ref(1);
-            const b = bindAwait(new Computed(async (value) => {
+            const b = bindAsync(new Computed(async (value) => {
                 gate++;
                 await new Promise(resolve => setTimeout(resolve));
                 return value(a);

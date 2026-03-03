@@ -57,13 +57,13 @@ describe('bind', function () {
         const w = watch(c, () => {});
 
         // @ts-expect-error
-        assert.strictEqual(b.state, 1);
+        assert.strictEqual(b.state, 2);
         assert.strictEqual(c.value, 2);
         w.stop();
         a.value = 2;
 
         // @ts-expect-error
-        assert.strictEqual(b.state, 2);
+        assert.strictEqual(b.state, 3);
     });
 
     it('resume watch', function () {

@@ -1,2 +1,2 @@
-export { bind } from './bind';
-export { bindAwait } from './bindAwait';
+export { bind } from './bind.js';
+export { bindAsync } from './bindAsync.js';

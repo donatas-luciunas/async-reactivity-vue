@@ -2,7 +2,7 @@ import { customRef, ref, computed } from '@vue/reactivity';
 import { type Dependency, Watcher } from 'async-reactivity';
 import onStopTracking from "./onStopTracking.js";
 
-export const bindAwait = <T>(dependency: Dependency<Promise<T>>, initialValue: T, loadingTrack = true) => {
+export const bindAsync = <T>(dependency: Dependency<Promise<T>>, initialValue: T, loadingTrack = true) => {
     // possibly unexpected behavior when loadingTrack = false
     //   it's like: is it loading? no, should it?
     //   `data` must be used to trigger load (if `data` is not used, `loading` is always false)
