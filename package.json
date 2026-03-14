@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "tsc -w -p src",
     "build": "tsc -p src",
-    "test": "mocha \"./{,!(node_modules)/**/}*.test.js\""
+    "test": "mocha \"./{,!(node_modules)/**/}*.test.js\"",
+    "benchmark": "NODE_ENV=production node --expose-gc ./lib/benchmark.js"
   },
   "repository": {
     "type": "git",
