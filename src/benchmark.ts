@@ -3,11 +3,11 @@ import { Ref, Computed } from 'async-reactivity';
 
 const memoryItems = 10000;
 const checkMemory = (func: Function) => {
-    global.gc();
+    global.gc?.();
     const memoryBefore = process.memoryUsage().heapUsed;
 
     const result = func();
-    global.gc();
+    global.gc?.();
     result;
 
     const memoryAfter = process.memoryUsage().heapUsed;
